@@ -1,0 +1,9 @@
+Rscript filter_data.R -f=crime-base.csv | Rscript ingest_data.R
+Rscript filter_data.R -f=crime-week-1-patch.csv | Rscript patch_data.R
+Rscript filter_data.R -f=crime-week-1.csv | Rscript ingest_data.R
+Rscript filter_data.R -f=crime-week-2-patch.csv | Rscript patch_data.R
+Rscript filter_data.R -f=crime-week-2.csv | Rscript ingest_data.R
+Rscript filter_data.R -f=crime-week-3-patch.csv | Rscript patch_data.R
+Rscript filter_data.R -f=crime-week-3.csv | Rscript ingest_data.R
+Rscript filter_data.R -f=crime-week-4-patch.csv | Rscript patch_data.R
+Rscript filter_data.R -f=crime-week-4.csv | Rscript ingest_data.R

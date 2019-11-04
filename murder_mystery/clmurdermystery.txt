@@ -1,0 +1,69 @@
+# The suspect is Jeremy Bowers
+cd 36-750
+cd Extras_for_assignments
+git clone https://github.com/veltman/clmystery.git
+cd clmystery
+
+head -n 20 mystery/crimescene     # taking a first look in the file crimescene
+grep "CLUE" mystery/crimescene    # extracting lines containing the word CLUE
+                                  # from file crimescene and found that the
+                                  # potential witness is female, Annabel with blond hair
+                                  # and a New Zealand accent
+grep "Annabel" mystery/people     # trying to find people named Annabel and found 2 women
+                                  # named Annabel Sun and Annabel Church
+grep -n "Annabel" mystery/vehicles # found line numbers containing Annabel and found line
+                                   # 22681 and 22737 for Annabel Church and Annabel Sun
+                                   # respectively
+head -n 12 mystery/vehicles       # to see structure of data in file vehicles
+grep -B 3 -A 3 "Annabel" mystery/vehicles # to see information for people named Annabel
+                                          # with 3 lines preceeding and following the
+                                          # lines containing Annabel
+head -n 173 mystery/streets/Mattapan_Street | tail -n 1 #for trial checking address of one Annabel
+
+head -n 40 mystery/streets/Hart_Place | tail -n 1 # # checking address of Annabel Sun, gives interview number 47246024
+head -n 179 mystery/streets/Buckingham_Place | tail -n 1  #checking address of Annabel Church, gives interview number 699607
+
+cat mystery/interviews/interview-47246024 #not the witness
+cat mystery/interviews/interview-699607  #turns out to be the witness and says a Blue Honda car with license plate L337...9 fled the scene
+
+grep -A 5 "L337" mystery/vehicles   #To list vehicles with license number starting with L337.Blue Honda is driven by Erika Owens, Aron Pilhofer, Heather Billings, Joe Germuska, Jeremy Bowers, Jacqui Maher
+
+cd mystery/memberships
+
+cat AAA AAdvantage Costco Delta_Skymiles Fitness_Galaxy Museum_of_Bash_History REI Rotary_club TCSU_Alumni_Association Terminal_City_Library United_MileagePlus | grep "Jeremy Bowers" | wc -l #member of 4 groups # Jeremy Bowers has 4 memberships
+cat AAA AAdvantage Costco Delta_Skymiles Fitness_Galaxy Museum_of_Bash_History REI Rotary_club TCSU_Alumni_Association Terminal_City_Library United_MileagePlus | grep "Joe Germuska" | wc -l
+cat AAA AAdvantage Costco Delta_Skymiles Fitness_Galaxy Museum_of_Bash_History REI Rotary_club TCSU_Alumni_Association Terminal_City_Library United_MileagePlus | grep "Heather Billings" | wc -l
+cat AAA AAdvantage Costco Delta_Skymiles Fitness_Galaxy Museum_of_Bash_History REI Rotary_club TCSU_Alumni_Association Terminal_City_Library United_MileagePlus | grep "Aron Pilhofer" | wc -l
+cat AAA AAdvantage Costco Delta_Skymiles Fitness_Galaxy Museum_of_Bash_History REI Rotary_club TCSU_Alumni_Association Terminal_City_Library United_MileagePlus | grep "Erika Owens" | wc -l
+cat AAA AAdvantage Costco Delta_Skymiles Fitness_Galaxy Museum_of_Bash_History REI Rotary_club TCSU_Alumni_Association Termminal_City_Library UnitedMileagePlus | grep -c "Jacqui Mahr"
+
+cd ../..
+grep "Jeremy Bowers" mystery/people  #extracting information about Jeremy Bowers
+head -n 284 mystery/streets/Dunstable_Road | tail -n 1
+cat mystery/interviews/interview-9620713 #He turned out to be a suspect and is missing
+
+#The following lines are to make sure that the other Blue Honda drivers are not suspects
+grep "Erika Owens" mystery/people
+head -n 98 mystery/streets/Trapelo_Street | tail -n 1
+cat mystery/interviews/interview-5455315
+
+grep "Aron Pilhofer" mystery/people
+head -n 145 mystery/streets/Claybourne_Street | tail -n 1
+cat mystery/interviews/interview-1767435
+
+grep "Heather Billings" mystery/people
+head -n 19 mystery/streets/Culbert_Street | tail -n 1
+cat mystery/interviews/interview-2939888
+
+grep "Joe Germuska" mystery/people
+head -n 275 mystery/streets/Plainfield_Street | tail -n 1
+cat mystery/interviews/interview-29741223
+
+grep "Jacqui Maher" mystery/people
+head -n 224 mystery/streets/Andover_Road | tail -n 1
+cat mystery/interviews/interview-904020
+
+# checking solution by reading contents of solution file
+cat solution
+echo "Jeremy Bowers" | $(command -v md5 || command -v md5sum)
+grep -qi "32cacbec4b918e2fd130fd68cf818ae5" encoded && echo CORRECT\! GREAT WORK, GUMSHOE. || echo SORRY, TRY AGAIN.

@@ -1,0 +1,55 @@
+########################## Question answers #####################
+
+1. to	be	or	not	that	is	the	question
+   2	2	1	1	1	1	1	1
+
+2. be
+   1
+
+ Assuming that the lexicon is created from the document. Otherwise if a lexicon is provided,
+ then it will contain 1 for the location of the word "be" and 0 for others. The following is
+ for the lexicon obtained from question 1.
+
+  to	be	or	not	that	is	the	question
+  0	1	0	0	0	0	0	0
+
+ Euclidean distance = sqrt(4 + 1 + 1 + 1 + 1 + 1 + 1 + 1) = sqrt(11)
+
+3. If we want to know if a given phrase is present in a document, then we cannot use bag of
+   words representation. Because in bag of words order is lost.
+
+4. The usefulness of IDF can be described by a simple example : 
+	Document 1 : "It is well known that, Piccaso was a great artist"
+	Document 2 : "It is well known that, Einstein was a great scientist"
+	Document 3 : "Picasso started the idea of collage as a form of art"
+   Distance between document 1 and document 2 is sqrt(2) and distance between document 1 and 3 is sqrt(19).
+   But document 1 and 3 are more related as they are talkinh about the same thing.
+
+  In such cases IDF downplays the contribution of words like "it", "is", "a", "was".
+  Hence it increases contribution of special words like "Piccaso", "Einstein".
+
+
+############################ 4 ####################################
+
+nyt-cluster1 : Euclidean distance
+nyt-cluster2 : Maximum distance
+The distance images do not differ by much except for some files which are distant from majority of the other files.
+One such particular file "art/0455114.txt" which has the highest number of words. Hence we cannot differentiate the art files from the music files clearly.
+This can be a because the difference comes from particular words used in the files ("piano", "violin", "acting", "paint", etc.). But most of the words present in the documents
+are general words lie pronouns, articles, etc.
+
+############################ 5 ####################################
+
+I ran the IrSearch for 5 files. The file column containing the file name. And the second to the sixth fils in that row correspond to the matched returns in order of distance 
+
+ "music/0837945.txt"	 "art/0142012.txt"  	 "music/0075170.txt"	 "music/0844250.txt"	 "music/1276278.txt"  	 "art/1610198.txt"
+ "music/0299849.txt"	 "music/0646497.txt"	 "art/1173872.txt"  	 "art/1185570.txt"  	 "music/1377204.txt"	 "music/0170797.txt"
+ "art/1185570.txt"  	 "art/1173872.txt"  	 "music/1625682.txt"  	 "art/1483769.txt"	 "art/1125506.txt"  	 "music/0436683.txt"
+ "art/0455114.txt"	 "music/1373660.txt"  	 "art/0068412.txt"  	 "art/1595645.txt"  	 "art/1275631.txt"  	 "music/0874477.txt"
+ "art/1173872.txt" 	 "art/0814962.txt"  	 "music/1262247.txt"   	 "art/0885264.txt"  	 "art/0498440.txt"  	 "art/0767815.txt"
+
+It seems that the best match for art files are art files mostly except the file "art/0455114.txt". Although the files belong to different categories it seems that they do not
+differ much. This can be due to the fact that the difference comes from some keywords like "piano", "paint" or proper nouns like names of artists or musicians. But the majority
+of the documents consist of words like "and", "or", "the" etc.
+
+##################################################################

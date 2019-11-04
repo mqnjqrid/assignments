@@ -1,0 +1,48 @@
+###################################### Question 1 ##################################
+
+For pokemon file trie creation: 2.06 seconds (Rprofile details in image : 'Rprofile_details.png')
+For wiktionary file trie creation: 22.62 seconds
+For baby-names file trie creation: 1.194034 mins
+For movies file trie creation (30000 instances): 7.044211 mins
+For movies file, trie ran for around 74000 instances for around < 30/40 minutes and crashed.
+
+(I had requested for permission from instructor Alex Reinhart for using another file for measuring
+searching time instead of movie file for other search times. I used the baby-names file.)
+
+(Some sample search times)
+Search time for baby-names trie : 
+(1) "s", 1 : 0.05 seconds
+(2) "s", 10000 : 14.18 seconds
+(3) "s", 30000 : 22.65 seconds
+(4) "sophia", 30000 : 0.16 seconds
+
+Search time for movies trie (30000 movies) :
+(1) "t", 100 : 1.8 seconds
+(2) "a", 30000 : 54.41818 seconds
+(3) "Portrait de groupe", 30000 : 0.206 seconds (largest string in the subset chosen)
+
+###################################### Question 2 ##################################
+
+(Plots are for baby-names.txt file)
+For creation of the trie the time complexity is O(n). (image 'time complexity.png')
+For searching for string suggestions, the time complexity is at least as good as O(log n). (image 'time_complexity_search.png')
+
+###################################### Question 3 ##################################
+
+(Please refer to image : 'Rprofile_details.png')
+Maximum time is taken by the function AddChild while creating a trie. It is called for each entry in the data file and for each
+character (including multiple occurence) in the entries.
+Secondly, 'tolower' function is called multiple times to compare strings in case-insensitive manner. This can be easily taken of by
+creating the trie of small case letters. (That was my code earlier) But I wanted to retain the actual form the entries in the datafile.
+So that the find_suggestion returns "Pikachu" instead of "pikachu" for prefix "pikac".
+Lastly, find_suggestion takes time because I called it multiple times for different prefixes. 
+
+For older code, create_tree took a lot of time. As pointed out by TA Taylor the function FindNode in R to get the child of
+a treenode that matched a substring, was slowing down the code. It has been improved by manually searchilg the immediate
+children of a node at each step.
+
+The structure has been improved by storing an alphabet prefixed by "child_" in each node instead of a substring of the
+corresponding leafnode(s) prefixed by "child_". This decreases memory usage.
+
+Again as pointed by TA Taylor, the find_suggestion function has been improved by using a list along side a priority queue
+instead of just a priority queue which ran until it exhausted each of it's elements' children.

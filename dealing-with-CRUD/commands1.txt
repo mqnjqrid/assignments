@@ -1,0 +1,20 @@
+scp nba-teams.txt manjarid@sculptor.stat.cmu.edu:.
+
+CREATE TABLE teams1 (empty1 text, Id char(5) PRIMARY KEY, Location text, Name text, Division text, Conference text, empty2 text);
+
+\copy teams1 FROM '/home/manjarid/nba-teams.txt' WITH CSV HEADER DELIMITER '|';
+
+ALTER TABLE teams1 drop empty1, drop empty2;
+
+UPDATE teams1 SET Id=REPLACE(Id, ' ', '');
+UPDATE teams1 SET Location=REPLACE(Location, ' ', '');
+UPDATE teams1 SET Name=REPLACEName, ' ', '');
+UPDATE teams1 SET Division=REPLACE(Division, ' ', '');
+UPDATE teams1 SET Conference=REPLACE(Conference, ' ', '');
+
+CREATE TABLE teams (Id char(3) PRIMARY KEY, Location text, Name text, Division text, Conference text);
+
+INSERT INTO teams SELECT * FROM teams1;
+DROP TABLE teams1;
+
+SELECT * FROM teams WHERE Division='Atlantic' AND Name='Celtics' AND Location='Boston' AND Conference='Eastern' AND Id = 'BOS';

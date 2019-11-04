@@ -1,0 +1,56 @@
+---
+title: "Crime Data Report"
+author: "Manjari Das"
+date: "December 9, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction to Data
+
+Municipal police departments maintain police records od crime bt time, date and location. There are two main files. One is a neighborhood file that contains list of all the neighborhoods, their names, locations and zone number. The other file is a list of all crime records, their type, zone, location etc. Everyweek a new crime recod list is released which is merged with the existing list. If this data we have a total of four weeks of data.
+
+## Summary
+
+We extract the crime records that are of type "Offense 2.0". Below are four tables corresponding to the last four weeks data displaying the number of crime records for each crime type.
+
+Below are four tables
+
+```{r RPostgreSQL, echo = FALSE}
+library(RPostgreSQL)
+con <- dbConnect(PostgreSQL(), user="manjarid", password="fath1Heim",
+                 dbname="manjarid", host="sculptor.stat.cmu.edu")
+result = dbSendQuery(con, "select c.crime_type, count(*) AS WEEK1 from weeklycrime as f FULL outer join section_offense as c on f.section = c.section where f.section in (select cc.section from section_offense as cc) AND arrest_time > timestamp '2015-03-31 20:49:59' AND arrest_time < timestamp '2015-04-07 00:01:59' group by c.crime_type;")
+data = dbFetch(result)
+data
+dbClearResult(result)
+result = dbSendQuery(con, "select c.crime_type, count(*) AS WEEK2 from weeklycrime as f FULL outer join section_offense as c on f.section = c.section where f.section in (select cc.section from section_offense as cc) AND arrest_time > timestamp '2015-04-07 00:02:00' AND arrest_time < timestamp '2015-04-14 00:25:59' group by c.crime_type;")
+data = dbFetch(result)
+data
+dbClearResult(result)
+result = dbSendQuery(con, "select c.crime_type, count(*) AS WEEK3 from weeklycrime as f FULL outer join section_offense as c on f.section = c.section where f.section in (select cc.section from section_offense as cc) AND arrest_time > timestamp '2015-04-14 00:28:59' AND arrest_time < timestamp '2015-04-21 00:08:59' group by c.crime_type;")
+data = dbFetch(result)
+data
+dbClearResult(result)
+result = dbSendQuery(con, "select c.crime_type, count(*) AS WEEK4 from weeklycrime as f FULL outer join section_offense as c on f.section = c.section where f.section in (select cc.section from section_offense as cc) AND arrest_time > timestamp '2015-04-21 00:09:00' AND arrest_time < timestamp '2015-04-27 00:01:59' group by c.crime_type;")
+data = dbFetch(result)
+data
+dbClearResult(result)
+```
+
+
+## Number of crime records across time
+
+Next, we plot number of crimes for each day. April 1st seems to have the highest crimes.
+
+```{r, echo = FALSE}
+result = dbSendQuery(con, "select CAST(arrest_time AS DATE) as day, count(*) AS crime_count from weeklycrime group by CAST(arrest_time AS DATE) order by CAST(arrest_time AS DATE);")
+data = dbFetch(result)
+plot(data$day, data$crime_count, type = "l")
+dbClearResult(result)
+
+```
+
